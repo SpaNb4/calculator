@@ -36,8 +36,8 @@ class Calculator {
     let computation;
     const prev = parseFloat(this.previousOperand);
     const current = parseFloat(this.currentOperand);
-    if (this.operation = '√') {
-      computation = Math.sqrt(current);
+    if (this.operation == '√') {
+      computation = Math.sqrt(prev);
     }
     else {
       if (isNaN(prev) || isNaN(current)) return;
@@ -53,6 +53,9 @@ class Calculator {
           break;
         case '÷':
           computation = prev / current;
+          break;
+        case '^':
+          computation = Math.pow(prev, current);
           break;
         default:
           return;
@@ -143,6 +146,7 @@ deleteButton.addEventListener('click', button => {
 });
 
 sqrtButton.addEventListener('click', button => {
+  calculator.chooseOperation(sqrtButton.innerText);
   calculator.compute();
   calculator.updateDisplay();
 });
