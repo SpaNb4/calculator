@@ -53,7 +53,7 @@ class Calculator {
     const current = parseFloat(this.currentOperand);
     if (this.operation == '√') {
       if (prev > 0) {
-        computation = Math.sqrt(prev);
+        computation =  Math.round((Math.sqrt(prev)) * 10000000) / 10000000;
       }
       else {
         computation = 'Invalid input';
@@ -63,19 +63,19 @@ class Calculator {
       if (isNaN(prev) || isNaN(current)) return;
       switch (this.operation) {
         case '+':
-          computation = (prev + current).toPrecision(1);
+          computation = Math.round((prev + current) * 10000000) / 10000000;
           break;
         case '-':
-          computation = (prev - current).toPrecision(1);
+          computation = Math.round((prev - current) * 10000000) / 10000000;
           break;
         case '*':
-          computation = (prev * current).toPrecision(1);
+          computation = Math.round((prev * current) * 10000000) / 10000000;
           break;
         case '÷':
-          computation = (prev / current).toPrecision(1);
+          computation = Math.round((prev / current) * 10000000) / 10000000;
           break;
         case '^':
-          computation = Math.pow(prev, current).toPrecision(1);
+          computation = Math.round((Math.pow(prev, current)) * 10000000) / 10000000;
           break;
         default:
           return;

@@ -34,6 +34,10 @@ body {
 .span-two {
   grid-column: span 2;
 }
+button.span-three {
+  grid-column: span 3;
+  font-size: 14px;
+}
 
 .output {
   grid-column: 1 / -1;
