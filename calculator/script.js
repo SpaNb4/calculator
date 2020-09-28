@@ -3,6 +3,7 @@ class Calculator {
     this.previousOperandTextElement = previousOperandTextElement;
     this.currentOperandTextElement = currentOperandTextElement;
     this.readyToReset = false;
+    this.isNegative = false;
     this.clear();
   }
 
@@ -32,30 +33,49 @@ class Calculator {
     this.currentOperand = '';
   }
 
+  negative() {
+    this.isNegative = true;
+  }
+
   compute() {
     let computation;
+    if (this.isNegative) {
+      if (this.currentOperand > 0) {
+        this.currentOperand = -this.currentOperand;
+        this.isNegative = false;
+      }
+      else {
+        this.currentOperand = -this.currentOperand;
+        this.isNegative = false;
+      }
+    }
     const prev = parseFloat(this.previousOperand);
     const current = parseFloat(this.currentOperand);
     if (this.operation == '√') {
-      computation = Math.sqrt(prev);
+      if (prev > 0) {
+        computation = Math.sqrt(prev);
+      }
+      else {
+        computation = 'Invalid input';
+      }
     }
     else {
       if (isNaN(prev) || isNaN(current)) return;
       switch (this.operation) {
         case '+':
-          computation = prev + current;
+          computation = (prev + current).toPrecision(1);
           break;
         case '-':
-          computation = prev - current;
+          computation = (prev - current).toPrecision(1);
           break;
         case '*':
-          computation = prev * current;
+          computation = (prev * current).toPrecision(1);
           break;
         case '÷':
-          computation = prev / current;
+          computation = (prev / current).toPrecision(1);
           break;
         case '^':
-          computation = Math.pow(prev, current);
+          computation = Math.pow(prev, current).toPrecision(1);
           break;
         default:
           return;
@@ -77,6 +97,9 @@ class Calculator {
     }
     else {
       integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
+    }
+    if (number == 'Invalid input') {
+      integerDisplay = 'Invalid input';
     }
     if (decimalDigits != null) {
       return `${integerDisplay}.${decimalDigits}`;
@@ -105,6 +128,7 @@ const equalsButton = document.querySelector('[data-equals]');
 const deleteButton = document.querySelector('[data-delete]');
 const allClearButton = document.querySelector('[data-all-clear]');
 const sqrtButton = document.querySelector('[data-sqrt]');
+const negativeButton = document.querySelector('[data-negative]');
 const previousOperandTextElement = document.querySelector('[data-previous-operand]');
 const currentOperandTextElement = document.querySelector('[data-current-operand]');
 
@@ -147,6 +171,12 @@ deleteButton.addEventListener('click', button => {
 
 sqrtButton.addEventListener('click', button => {
   calculator.chooseOperation(sqrtButton.innerText);
+  calculator.compute();
+  calculator.updateDisplay();
+});
+
+negativeButton.addEventListener('click', button => {
+  calculator.negative();
   calculator.compute();
   calculator.updateDisplay();
 });
